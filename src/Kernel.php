@@ -13,7 +13,7 @@ class Kernel
 
     public function __construct()
     {
-        $this->routes = include __DIR__ . '/../config/routes.php';
+        $this->routes = include_once ROOT_DIR . '/config/routes.php';
         $this->httpMethod = $_SERVER['REQUEST_METHOD'];
 
         $uri = $_SERVER['REQUEST_URI'];
@@ -42,8 +42,14 @@ class Kernel
                 $handler = $routeInfo[1];
                 $vars = $routeInfo[2];
                 $vars = array_merge($vars, ['request' => new Request()]);
-                echo call_user_func_array($handler, $vars);
-                break;
+                if (is_callable([$handler['class'], $handler['method']])) {
+                    echo call_user_func_array([new $handler['class'], $handler['method']], $vars);
+                    break;
+                }
+                throw new \Exception(
+                    'Can`t call class`s method: ' .
+                    implode('::', [$handler['class'], $handler['method']])
+                );
             default:
                 header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
                 break;

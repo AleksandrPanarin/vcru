@@ -4,6 +4,7 @@ namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repositories\AdvertisementRepository")
  * @ORM\Table(name="advertisement")
@@ -122,5 +123,17 @@ class Advertisement
         return $this->banner;
     }
 
-
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'text' => $this->getText(),
+            'price' => $this->getPrice(),
+            'amount' => $this->getAmount(),
+            'banner' => REQUEST_SCHEME_HOST . DIRECTORY_SEPARATOR . $this->getBanner(),
+        ];
+    }
 }

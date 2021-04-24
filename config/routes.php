@@ -2,14 +2,12 @@
 
 use App\Controllers\ApiController;
 
-require_once '../vendor/autoload.php';
+require_once '../init.php';
 
-return FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->addRoute('GET', '/advertisement', function (){
-        header("Location: /advertisement/1");
-        exit();
+return FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
+    $r->addGroup('/v1', function () use ($r) {
+        $r->addRoute('GET', '/advertisement/{page:\d+}', ['class' => ApiController::class, 'method' => 'getAdvertisement']);
+        $r->addRoute('POST', '/advertisement', ['class' => ApiController::class, 'method' => 'create']);
+        $r->addRoute('POST', '/advertisement/{advertisementId:\d+}', ['class' => ApiController::class, 'method' => 'update']);
     });
-    $r->addRoute('GET', '/advertisement/{page:\d+}', [ApiController::class , 'getAdvertisement']);
-    $r->addRoute('POST', '/advertisement', [ApiController::class , 'create']);
-    $r->addRoute('PATCH', '/advertisement', [ApiController::class , 'update']);
 });

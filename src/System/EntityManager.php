@@ -18,11 +18,11 @@ class EntityManager
         $proxyDir = __DIR__ . "/../Proxies";
         $cache = new \Doctrine\Common\Cache\ArrayCache;
 
-        $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/../Entities"),
+        $config = Setup::createAnnotationMetadataConfiguration(array(ROOT_DIR . "/Entities"),
             false, $proxyDir, $cache, false);
         $config->setAutoGenerateProxyClasses(true);
 
-        $dbConfigFile = __DIR__ . '/../../config/config_db.php';
+        $dbConfigFile = ROOT_DIR . '/config/config_db.php';
         if (!file_exists($dbConfigFile)) {
             throw new \Exception('Config file not found. Path: '. $dbConfigFile);
         }
