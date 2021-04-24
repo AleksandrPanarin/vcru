@@ -2,8 +2,7 @@
 
 use App\Controllers\ApiController;
 
-require '../vendor/autoload.php';
-
+require_once '../vendor/autoload.php';
 
 return FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/advertisement', function (){

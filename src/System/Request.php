@@ -22,12 +22,11 @@ class Request
      */
     private $data = [];
 
-    public function __construct(array $data = [])
+    public function __construct()
     {
         $this->requestMethod = $_SERVER['REQUEST_METHOD'];
         $this->initGetParams();
         $this->initPostPutPatchData();
-        $this->mergeData($data);
     }
 
     private function initGetParams(): void
@@ -58,17 +57,6 @@ class Request
 
         if ($isValidMethod && $_FILES) {
             $this->data = array_merge($this->data, $_FILES);
-        }
-    }
-
-    private function mergeData(array $data): void
-    {
-        if ($data) {
-            if ($this->requestMethod == self::HTTP_METHOD_GET) {
-                $this->queryParams = array_merge($this->queryParams, $data);
-            } else {
-                $this->data = array_merge($this->data, $data);
-            }
         }
     }
 
