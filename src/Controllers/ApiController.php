@@ -15,14 +15,30 @@ use App\Utils\FileUploader;
 class ApiController extends BaseController
 {
     /**
-     * @param int $page
+     * @param int $advertisementId
      * @return JsonResponse
      */
-    public function getAdvertisement(int $page): JsonResponse
+    public function getAdvertisement(int $advertisementId): JsonResponse
     {
+        /** @var Advertisement $advertisement */
+        $advertisement = $this->em->getRepository(Advertisement::class)
+            ->findByIdAndNotMoreLimit($advertisementId);
+
+        if ($advertisement) {
+            $amountShow = $advertisement->getAmountShow() + 1;
+            $advertisement->setAmountShow($amountShow);
+            $this->em->flush();
+
+            return new JsonResponse([
+                'text' => $advertisement->getText(),
+                'banner' => $advertisement->getHostBanner(),
+            ], JsonResponse::HTTP_OK);
+        }
+
         return new JsonResponse([
-            'page' => $page
-        ], JsonResponse::HTTP_OK);
+            'message' => 'Advertisement not found or ad impression limit exceeded'
+        ], JsonResponse::HTTP_BAD_REQUEST);
+
     }
 
     /**

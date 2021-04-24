@@ -38,10 +38,21 @@ class Advertisement
     private $amount;
 
     /**
+     * @var int $amountShow
+     * @ORM\Column(type="integer", name="amount_show")
+     */
+    private $amountShow;
+
+    /**
      * @var string $banner
      * @ORM\Column(type="string")
      */
     private $banner;
+
+    public function __construct()
+    {
+        $this->amountShow = 0;
+    }
 
     /**
      * @return int
@@ -106,6 +117,25 @@ class Advertisement
     }
 
     /**
+     * @param int $amountShow
+     * @return $this
+     */
+    public function setAmountShow(int $amountShow): self
+    {
+        $this->amountShow = $amountShow;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAmountShow(): int
+    {
+        return $this->amountShow;
+    }
+
+    /**
      * @param string $banner
      * @return Advertisement
      */
@@ -124,6 +154,14 @@ class Advertisement
     }
 
     /**
+     * @return string
+     */
+    public function getHostBanner(): string
+    {
+        return REQUEST_SCHEME_HOST . DIRECTORY_SEPARATOR . $this->getBanner();
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array
@@ -133,7 +171,8 @@ class Advertisement
             'text' => $this->getText(),
             'price' => $this->getPrice(),
             'amount' => $this->getAmount(),
-            'banner' => REQUEST_SCHEME_HOST . DIRECTORY_SEPARATOR . $this->getBanner(),
+            'amountShow' => $this->getAmountShow(),
+            'banner' => $this->getHostBanner(),
         ];
     }
 }
