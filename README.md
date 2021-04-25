@@ -8,7 +8,9 @@
 
 3 Запустить команду для установки зависимостей `composer install`
 
+4 Запустить команду `php vendor/bin/doctrine orm:schema-tool:create`
+
  Доступны три маршрута  
- ` GET http://localhost/v1/advertisement/{advertisementId:\d+}`
+ `GET http://localhost/v1/advertisement/{advertisementId:\d+}`
  `POST http://localhost/v1/advertisement`
  `POST http://localhost/v1/advertisement/{advertisementId:\d+}`
