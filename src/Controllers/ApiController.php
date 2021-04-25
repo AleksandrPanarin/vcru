@@ -36,7 +36,7 @@ class ApiController extends BaseController
         }
 
         return new JsonResponse([
-            'message' => 'Advertisement not found or ad impression limit exceeded'
+            'message' => 'Advertisement not found or impression limit exceeded'
         ], JsonResponse::HTTP_BAD_REQUEST);
 
     }
